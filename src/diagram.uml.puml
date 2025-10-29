@@ -1,0 +1,62 @@
+@startuml
+title Lab07B_OOPTTT - Tic Tac Toe
+
+' Class: TicTacToeRunner
+class TicTacToeRunner {
+    + main(args: String[]) : void
+}
+
+' Class: TicTacToeGame
+class TicTacToeGame {
+    - board : TTTBoard
+    - currentPlayer : String
+    - moveCount : int
+    + TicTacToeGame()
+    + playMove(row: int, col: int) : boolean
+    + checkWin() : boolean
+    + checkTie() : boolean
+    + switchPlayer() : void
+    + resetGame() : void
+    + getCurrentPlayer() : String
+}
+
+' Class: TTTBoard
+class TTTBoard {
+    - tiles : String[][]
+    + TTTBoard()
+    + getTile(row: int, col: int) : String
+    + setTile(row: int, col: int, player: String) : void
+    + clearBoard() : void
+    + isFull() : boolean
+    + isWin(player: String) : boolean
+}
+
+' Class: TicTacToeFrame
+class TicTacToeFrame {
+    - game : TicTacToeGame
+    - tiles : TTTTileButton[][]
+    - ROWS : int
+    - COLS : int
+    + TicTacToeFrame()
+    + updateBoard() : void
+    + handleTileClick(row: int, col: int) : void
+    + resetGUI() : void
+}
+
+' Class: TTTTileButton
+class TTTTileButton {
+    - row : int
+    - col : int
+    + TTTTileButton(row: int, col: int)
+    + getRow() : int
+    + getCol() : int
+}
+
+' Relationships
+TicTacToeRunner --> TicTacToeFrame
+TicTacToeFrame --> TicTacToeGame
+TicTacToeGame --> TTTBoard
+TicTacToeFrame --> TTTTileButton
+TTTBoard --> TTTTileButton : uses indirectly
+
+@enduml
