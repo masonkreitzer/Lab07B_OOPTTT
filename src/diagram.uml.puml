@@ -1,62 +1,64 @@
 @startuml
 title Lab07B_OOPTTT - Tic Tac Toe
 
-' Class: TicTacToeRunner
 class TicTacToeRunner {
-    + main(args: String[]) : void
+  + main(args: String[]) : void
 }
 
-' Class: TicTacToeGame
-class TicTacToeGame {
-    - board : TTTBoard
-    - currentPlayer : String
-    - moveCount : int
-    + TicTacToeGame()
-    + playMove(row: int, col: int) : boolean
-    + checkWin() : boolean
-    + checkTie() : boolean
-    + switchPlayer() : void
-    + resetGame() : void
-    + getCurrentPlayer() : String
+class GameFrame {
+  - tiles : TTTTileButton[][]
+  - ROWS : int
+  - COLS : int
+  - game : Game
+  + GameFrame()
+  - getJPanel() : JPanel
+  - updateTileUI(r: int, c: int) : void
+  - resetBoardUI() : void
+  - promptPlayAgain() : void
 }
 
-' Class: TTTBoard
-class TTTBoard {
-    - tiles : String[][]
-    + TTTBoard()
-    + getTile(row: int, col: int) : String
-    + setTile(row: int, col: int, player: String) : void
-    + clearBoard() : void
-    + isFull() : boolean
-    + isWin(player: String) : boolean
+class Game {
+  - board : Board
+  - currentPlayer : Player
+  - moveCount : int
+  + Game()
+  + makeMove(row: int, col: int) : MoveResult
+  + reset() : void
+  + getCurrentPlayer() : Player
+  + getBoard() : Board
+  + getMoveCount() : int
 }
 
-' Class: TicTacToeFrame
-class TicTacToeFrame {
-    - game : TicTacToeGame
-    - tiles : TTTTileButton[][]
-    - ROWS : int
-    - COLS : int
-    + TicTacToeFrame()
-    + updateBoard() : void
-    + handleTileClick(row: int, col: int) : void
-    + resetGUI() : void
+class Board {
+  + ROWS : int = 3
+  + COLS : int = 3
+  - grid : String[][]
+  + Board()
+  + clear() : void
+  + isValidMove(r: int, c: int) : boolean
+  + setCell(r: int, c: int, player: String) : void
+  + getCell(r: int, c: int) : String
+  + isWin(player: String) : boolean
+  + isTie() : boolean
 }
 
-' Class: TTTTileButton
+class Player {
+  + other() : Player
+  + toString() : String
+}
+
 class TTTTileButton {
-    - row : int
-    - col : int
-    + TTTTileButton(row: int, col: int)
-    + getRow() : int
-    + getCol() : int
+  - row : int
+  - col : int
+  + TTTTileButton(row: int, col: int)
+  + getRow() : int
+  + getCol() : int
 }
 
-' Relationships
-TicTacToeRunner --> TicTacToeFrame
-TicTacToeFrame --> TicTacToeGame
-TicTacToeGame --> TTTBoard
-TicTacToeFrame --> TTTTileButton
-TTTBoard --> TTTTileButton : uses indirectly
+TicTacToeRunner --> GameFrame
+GameFrame --> Game
+Game --> Board
+Game --> Player
+GameFrame --> TTTTileButton
 
 @enduml
